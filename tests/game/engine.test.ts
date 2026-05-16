@@ -1,7 +1,5 @@
 import { describe, expect, it } from 'vitest'
 import {
-  canAnnounceDehors,
-  completeGame,
   createGameState,
   createMatchState,
   getGameWinner,
@@ -12,7 +10,7 @@ import {
 import { getValidCards } from '@/lib/game/rules'
 import type { Card, GameState, PlayerInfo, Seat, Suit } from '@/lib/game/types'
 
-const card = (rank: Card['rank'], suit: Suit): Card => ({ rank, suit })
+const _card = (rank: Card['rank'], suit: Suit): Card => ({ rank, suit })
 
 describe('engine', () => {
   describe('createGameState', () => {
@@ -33,7 +31,7 @@ describe('engine', () => {
       expect(dealt.phase).toBe('PLAYING')
       expect(dealt.currentDeal).not.toBeNull()
       for (let i = 0; i < 4; i++) {
-        expect(dealt.currentDeal!.hands[i]).toHaveLength(8)
+        expect(dealt.currentDeal?.hands[i]).toHaveLength(8)
       }
     })
 
@@ -41,14 +39,14 @@ describe('engine', () => {
       const game = createGameState(0 as Seat)
       const dealt = startDeal(game)
       expect(['SPADES', 'HEARTS', 'DIAMONDS', 'CLUBS']).toContain(
-        dealt.currentDeal!.trump,
+        dealt.currentDeal?.trump,
       )
     })
 
     it('sets starting player to right of dealer', () => {
       const game = createGameState(2 as Seat)
       const dealt = startDeal(game)
-      expect(dealt.currentDeal!.currentPlayer).toBe(1) // right of 2 in counter-clockwise
+      expect(dealt.currentDeal?.currentPlayer).toBe(1) // right of 2 in counter-clockwise
     })
 
     it('increments deal number', () => {
@@ -66,8 +64,8 @@ describe('engine', () => {
       const cardToPlay = deal.hands[seat][0]
 
       const after = playCard(game, seat, cardToPlay)
-      expect(after.currentDeal!.hands[seat]).toHaveLength(7)
-      expect(after.currentDeal!.hands[seat]).not.toContainEqual(cardToPlay)
+      expect(after.currentDeal?.hands[seat]).toHaveLength(7)
+      expect(after.currentDeal?.hands[seat]).not.toContainEqual(cardToPlay)
     })
 
     it('adds card to current trick', () => {
@@ -77,8 +75,8 @@ describe('engine', () => {
       const cardToPlay = deal.hands[seat][0]
 
       const after = playCard(game, seat, cardToPlay)
-      expect(after.currentDeal!.currentTrick).toHaveLength(1)
-      expect(after.currentDeal!.currentTrick[0]).toEqual({
+      expect(after.currentDeal?.currentTrick).toHaveLength(1)
+      expect(after.currentDeal?.currentTrick[0]).toEqual({
         seat,
         card: cardToPlay,
       })
@@ -117,9 +115,9 @@ describe('engine', () => {
       }
 
       // After 4 plays, trick should be complete
-      expect(game.currentDeal!.tricks).toHaveLength(1)
-      expect(game.currentDeal!.currentTrick).toHaveLength(0)
-      expect(game.currentDeal!.trickNumber).toBe(2)
+      expect(game.currentDeal?.tricks).toHaveLength(1)
+      expect(game.currentDeal?.currentTrick).toHaveLength(0)
+      expect(game.currentDeal?.trickNumber).toBe(2)
     })
   })
 
@@ -142,7 +140,7 @@ describe('engine', () => {
       expect(game.phase === 'DEAL_COMPLETE' || game.phase === 'GAME_OVER').toBe(
         true,
       )
-      expect(game.currentDeal!.tricks).toHaveLength(8)
+      expect(game.currentDeal?.tricks).toHaveLength(8)
     })
   })
 
@@ -174,7 +172,7 @@ describe('engine', () => {
       const started = startNewGame(match, 0 as Seat)
       expect(started.gameNumber).toBe(1)
       expect(started.currentGame).not.toBeNull()
-      expect(started.currentGame!.phase).toBe('WAITING_FOR_DEAL')
+      expect(started.currentGame?.phase).toBe('WAITING_FOR_DEAL')
     })
 
     it('throws if match is finished', () => {

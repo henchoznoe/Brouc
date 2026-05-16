@@ -10,6 +10,7 @@
 
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
+import { GameClient } from '@/components/game/game-client'
 import { useSocketContext } from '@/components/providers/socket-provider'
 import { Button } from '@/components/ui/button'
 import { ROUTES } from '@/lib/config/routes'
@@ -29,8 +30,9 @@ export const RoomClient = ({ code, user }: RoomClientProps) => {
   const router = useRouter()
   const [room, setRoom] = useState<RoomState | null>(null)
   const [countdown, setCountdown] = useState<number | null>(null)
+  const [gameStarted, setGameStarted] = useState(false)
 
-  const isCreator = room?.createdBy === user.id
+  const _isCreator = room?.createdBy === user.id
   const myPlayer = room?.players.find(p => p.userId === user.id)
   const isReady = myPlayer?.isReady ?? false
 
@@ -63,6 +65,7 @@ export const RoomClient = ({ code, user }: RoomClientProps) => {
     })
     socket.on('room:countdown', ({ seconds }) => setCountdown(seconds))
     socket.on('room:dissolved', () => router.push(ROUTES.PLAY))
+    socket.on('game:started', () => setGameStarted(true))
 
     // Join room if not already in it
     if (!room) {
@@ -80,6 +83,7 @@ export const RoomClient = ({ code, user }: RoomClientProps) => {
       socket.off('room:player-ready')
       socket.off('room:countdown')
       socket.off('room:dissolved')
+      socket.off('game:started')
     }
   }, [socket, isConnected, code, room, router])
 
@@ -97,6 +101,10 @@ export const RoomClient = ({ code, user }: RoomClientProps) => {
     socket.emit('room:leave')
     router.push(ROUTES.PLAY)
   }, [socket, router])
+
+  if (gameStarted) {
+    return <GameClient userId={user.id} />
+  }
 
   if (!room) {
     return (

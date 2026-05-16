@@ -18,7 +18,7 @@ import type { Card, DeclaredMarriage, MarriageType, Seat, Suit } from './types'
 export const detectMarriageInHand = (
   hand: Card[],
   suit: Suit,
-  trump: Suit,
+  _trump: Suit,
 ): MarriageType | null => {
   const suitCards = cardsOfSuit(hand, suit)
   const hasKing = suitCards.some(c => c.rank === 'KING')
@@ -73,10 +73,10 @@ export const createMarriage = (
  */
 export const canDeclareMarriage = (
   hand: Card[],
-  seat: Seat,
+  _seat: Seat,
   suit: Suit,
   type: MarriageType,
-  trump: Suit,
+  _trump: Suit,
   teamHasWonTrick: boolean,
 ): boolean => {
   if (!teamHasWonTrick) return false

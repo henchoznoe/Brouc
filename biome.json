@@ -17,6 +17,8 @@
       "scripts/**",
       "tests/**",
       "next.config.ts",
+      "server.ts",
+      "proxy.ts",
       "!**/package.json",
       "biome.json",
       "tsconfig.json",
@@ -50,7 +52,8 @@
         "useNodejsImportProtocol": "error"
       },
       "suspicious": {
-        "noExplicitAny": "error"
+        "noExplicitAny": "error",
+        "noArrayIndexKey": "warn"
       }
     }
   },

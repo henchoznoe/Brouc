@@ -22,13 +22,7 @@ import {
   shuffle,
 } from './deck'
 import { detectMarriageInTrick } from './marriages'
-import {
-  determineTrickWinner,
-  getValidCards,
-  hasCard,
-  isValidPlay,
-  removeCard,
-} from './rules'
+import { determineTrickWinner, hasCard, isValidPlay, removeCard } from './rules'
 import {
   calculateCoches,
   calculateDealScore,

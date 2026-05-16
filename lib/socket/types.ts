@@ -9,7 +9,6 @@
 import type {
   Card,
   DeclaredMarriage,
-  GameState,
   MarriageType,
   MatchState,
   Seat,

@@ -124,7 +124,7 @@ export const calculateDealScore = (
 
   // "Sur le point": if either raw total ends in 5, the deal total increases by 1
   // The team with the .5 gets the round-up, the other team's score = total - theirs
-  const dealTotal = ardoiseA + ardoiseB
+  const _dealTotal = ardoiseA + ardoiseB
 
   // Recompute: ensure sum is consistent (12 normally, 13 if "sur le point")
   // Actually: each team is independently rounded. The sum may be 12 or 13.
@@ -174,7 +174,7 @@ export const calculateCoches = (
   isCape: boolean,
   isDehors: boolean,
   loserArdoiseBeforeDeal: number,
-  winnerArdoiseBeforeDeal: number,
+  _winnerArdoiseBeforeDeal: number,
 ): number => {
   if (isCape && isDehors) {
     // "Cape et dehors": winner had ≥19 and made cape

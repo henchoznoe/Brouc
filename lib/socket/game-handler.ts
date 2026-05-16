@@ -9,7 +9,6 @@
 import type { Server, Socket } from 'socket.io'
 import { TEAM_FOR_SEAT } from '@/lib/game/constants'
 import {
-  createGameState,
   createMatchState,
   playCard,
   startDeal,
@@ -91,7 +90,7 @@ export const startGame = async (
 /** Notify the current player it's their turn with valid cards. */
 const notifyCurrentPlayer = async (
   io: AppServer,
-  roomCode: string,
+  _roomCode: string,
   match: ReturnType<typeof createMatchState>,
 ): Promise<void> => {
   const game = match.currentGame

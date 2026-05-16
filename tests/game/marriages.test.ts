@@ -159,7 +159,7 @@ describe('marriages', () => {
     })
 
     it('detects extended marriage with K+Q+J from same team', () => {
-      const trick = [
+      const _trick = [
         { seat: 0 as Seat, card: card('KING', 'SPADES') },
         { seat: 1 as Seat, card: card('JACK', 'HEARTS') },
         { seat: 2 as Seat, card: card('QUEEN', 'SPADES') },
