@@ -15,12 +15,3 @@ export const METADATA = {
 export const DEFAULT_ASSETS = {
   LOGO: '/assets/logo-blue.png',
 } as const
-
-export const AUTHOR = {
-  URL: 'https://henchoznoe.ch',
-  NAME: 'Noé Henchoz',
-  EMAIL: 'henchoznoe@gmail.com',
-} as const
-
-/** Suffix used to set date to noon UTC, avoiding timezone-induced day shifts. */
-export const NOON_UTC_SUFFIX = 'T12:00:00.000Z'

@@ -132,7 +132,15 @@ exports.Prisma.UserScalarFieldEnum = {
   updatedAt: 'updatedAt',
   lastLoginAt: 'lastLoginAt',
   bannedAt: 'bannedAt',
-  bannedUntil: 'bannedUntil'
+  bannedUntil: 'bannedUntil',
+  rating: 'rating',
+  gamesPlayed: 'gamesPlayed',
+  gamesWon: 'gamesWon',
+  matchesPlayed: 'matchesPlayed',
+  matchesWon: 'matchesWon',
+  totalPoints: 'totalPoints',
+  capesScored: 'capesScored',
+  marriagesScored: 'marriagesScored'
 };
 
 exports.Prisma.SessionScalarFieldEnum = {
@@ -170,6 +178,63 @@ exports.Prisma.VerificationScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.MatchScalarFieldEnum = {
+  id: 'id',
+  roomCode: 'roomCode',
+  status: 'status',
+  startedAt: 'startedAt',
+  finishedAt: 'finishedAt',
+  cochesTeamA: 'cochesTeamA',
+  cochesTeamB: 'cochesTeamB',
+  winnerTeam: 'winnerTeam'
+};
+
+exports.Prisma.MatchPlayerScalarFieldEnum = {
+  id: 'id',
+  matchId: 'matchId',
+  userId: 'userId',
+  seat: 'seat',
+  team: 'team'
+};
+
+exports.Prisma.GameScalarFieldEnum = {
+  id: 'id',
+  matchId: 'matchId',
+  gameNumber: 'gameNumber',
+  scoreTeamA: 'scoreTeamA',
+  scoreTeamB: 'scoreTeamB',
+  winnerTeam: 'winnerTeam',
+  cochesAwarded: 'cochesAwarded',
+  startedAt: 'startedAt',
+  finishedAt: 'finishedAt'
+};
+
+exports.Prisma.DealScalarFieldEnum = {
+  id: 'id',
+  gameId: 'gameId',
+  dealNumber: 'dealNumber',
+  dealerSeat: 'dealerSeat',
+  trumpSuit: 'trumpSuit',
+  rawPointsTeamA: 'rawPointsTeamA',
+  rawPointsTeamB: 'rawPointsTeamB',
+  ardoiseTeamA: 'ardoiseTeamA',
+  ardoiseTeamB: 'ardoiseTeamB',
+  isCape: 'isCape',
+  capeTeam: 'capeTeam',
+  startedAt: 'startedAt',
+  finishedAt: 'finishedAt'
+};
+
+exports.Prisma.MarriageScalarFieldEnum = {
+  id: 'id',
+  dealId: 'dealId',
+  seat: 'seat',
+  team: 'team',
+  suit: 'suit',
+  type: 'type',
+  points: 'points'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -190,11 +255,39 @@ exports.Role = exports.$Enums.Role = {
   SUPER_ADMIN: 'SUPER_ADMIN'
 };
 
+exports.MatchStatus = exports.$Enums.MatchStatus = {
+  IN_PROGRESS: 'IN_PROGRESS',
+  COMPLETED: 'COMPLETED',
+  ABANDONED: 'ABANDONED'
+};
+
+exports.Team = exports.$Enums.Team = {
+  NORTH_SOUTH: 'NORTH_SOUTH',
+  EAST_WEST: 'EAST_WEST'
+};
+
+exports.Suit = exports.$Enums.Suit = {
+  SPADES: 'SPADES',
+  HEARTS: 'HEARTS',
+  DIAMONDS: 'DIAMONDS',
+  CLUBS: 'CLUBS'
+};
+
+exports.MarriageType = exports.$Enums.MarriageType = {
+  SIMPLE: 'SIMPLE',
+  EXTENDED: 'EXTENDED'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Session: 'Session',
   Account: 'Account',
-  Verification: 'Verification'
+  Verification: 'Verification',
+  Match: 'Match',
+  MatchPlayer: 'MatchPlayer',
+  Game: 'Game',
+  Deal: 'Deal',
+  Marriage: 'Marriage'
 };
 
 /**

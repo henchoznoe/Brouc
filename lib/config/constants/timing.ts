@@ -6,12 +6,6 @@
  * Copyright (c) 2026 Noé Henchoz
  */
 
-/** Common time durations in milliseconds. */
-export const SECOND_IN_MS = 1000
-export const MINUTE_IN_MS = SECOND_IN_MS * 60
-const HOUR_IN_MS = MINUTE_IN_MS * 60
-export const DAY_IN_MS = HOUR_IN_MS * 24
-
 /** Common time durations in seconds (used for cookie/session TTL configuration). */
 export const SECONDS_PER_MINUTE = 60
 const SECONDS_PER_HOUR = SECONDS_PER_MINUTE * 60

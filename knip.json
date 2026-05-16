@@ -1,11 +1,30 @@
 {
   "$schema": "https://unpkg.com/knip@6/schema.json",
-  "ignore": ["prisma/**"],
+  "entry": [
+    "app/**/*.{ts,tsx}",
+    "lib/game/index.ts",
+    "lib/socket/index.ts",
+    "components/game/index.ts",
+    "lib/hooks/use-socket.ts",
+    "lib/types/actions.ts",
+    "lib/utils/formatting.ts",
+    "lib/utils/prisma-error.ts",
+    "lib/config/constants/cache.ts",
+    "lib/config/constants/validation.ts",
+    "lib/services/match-history.ts",
+    "lib/utils/role.ts"
+  ],
+  "project": ["**/*.{ts,tsx}"],
   "ignoreBinaries": ["docker-compose"],
   "ignoreDependencies": [
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
     "@semantic-release/npm",
-    "@semantic-release/github"
-  ]
+    "@semantic-release/github",
+    "@hookform/resolvers",
+    "react-hook-form",
+    "framer-motion",
+    "tailwindcss"
+  ],
+  "ignoreExportsUsedInFile": true
 }

@@ -11,7 +11,6 @@
  * Copyright (c) 2026 Noé Henchoz
  */
 
-import 'server-only'
 import { env } from '@/lib/core/env'
 
 type LogLevel = 'info' | 'warn' | 'error'

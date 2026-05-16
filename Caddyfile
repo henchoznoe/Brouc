@@ -1,0 +1,7 @@
+# File: Caddyfile
+# Description: Caddy reverse proxy configuration.
+# Replace brouc.example.com with your actual domain.
+
+brouc.example.com {
+	reverse_proxy app:3000
+}

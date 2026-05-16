@@ -59,7 +59,9 @@ const fetchSession = async (
 
 /** Resolve the minimum role required for the given pathname. */
 const getRequiredRole = (pathname: string): Role => {
-  const match = SORTED_ROUTE_ENTRIES.find(([prefix]) => pathname.startsWith(prefix))
+  const match = SORTED_ROUTE_ENTRIES.find(([prefix]) =>
+    pathname.startsWith(prefix),
+  )
   return match ? match[1] : Role.ADMIN
 }
 
