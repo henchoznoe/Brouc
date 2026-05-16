@@ -9,12 +9,13 @@
 import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 
 export const metadata: Metadata = {
   title: 'Règles du jeu',
 }
 
-const RulesPage = async () => {
+const RulesContent = async () => {
   const rulesPath = join(process.cwd(), 'public/doc/rules.md')
   const content = await readFile(rulesPath, 'utf-8')
 
@@ -70,5 +71,11 @@ const RulesPage = async () => {
     </div>
   )
 }
+
+const RulesPage = () => (
+  <Suspense>
+    <RulesContent />
+  </Suspense>
+)
 
 export default RulesPage

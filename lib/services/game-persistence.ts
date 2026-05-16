@@ -6,7 +6,6 @@
  * Copyright (c) 2026 Noé Henchoz
  */
 
-import 'server-only'
 import { logger } from '@/lib/core/logger'
 import prisma from '@/lib/core/prisma'
 import type { MatchState } from '@/lib/game/types'
