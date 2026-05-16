@@ -21,6 +21,29 @@ enum Role {
   SUPER_ADMIN
 }
 
+enum MatchStatus {
+  IN_PROGRESS
+  COMPLETED
+  ABANDONED
+}
+
+enum Team {
+  NORTH_SOUTH
+  EAST_WEST
+}
+
+enum Suit {
+  SPADES
+  HEARTS
+  DIAMONDS
+  CLUBS
+}
+
+enum MarriageType {
+  SIMPLE
+  EXTENDED
+}
+
 // ─── Auth (Better Auth managed) ──────────────────────────────────────────────
 
 model User {
@@ -37,8 +60,19 @@ model User {
   bannedAt      DateTime?
   bannedUntil   DateTime?
 
-  sessions Session[]
-  accounts Account[]
+  // Game stats (denormalized for fast reads)
+  rating        Int @default(1200)
+  gamesPlayed   Int @default(0)
+  gamesWon      Int @default(0)
+  matchesPlayed Int @default(0)
+  matchesWon    Int @default(0)
+  totalPoints   Int @default(0)
+  capesScored   Int @default(0)
+  marriagesScored Int @default(0)
+
+  sessions     Session[]
+  accounts     Account[]
+  matchPlayers MatchPlayer[]
 
   @@map("user")
 }
@@ -86,4 +120,97 @@ model Verification {
   updatedAt  DateTime @updatedAt
 
   @@map("verification")
+}
+
+// ─── Match (best-of-5 coches) ────────────────────────────────────────────────
+
+model Match {
+  id          String      @id @default(uuid())
+  roomCode    String
+  status      MatchStatus @default(IN_PROGRESS)
+  startedAt   DateTime    @default(now())
+  finishedAt  DateTime?
+  cochesTeamA Int         @default(0)
+  cochesTeamB Int         @default(0)
+  winnerTeam  Team?
+
+  players MatchPlayer[]
+  games   Game[]
+
+  @@map("match")
+}
+
+model MatchPlayer {
+  id      String @id @default(uuid())
+  matchId String
+  userId  String
+  seat    Int
+  team    Team
+
+  match Match @relation(fields: [matchId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id])
+
+  @@unique([matchId, userId])
+  @@unique([matchId, seat])
+  @@map("match_player")
+}
+
+// ─── Game (single partie to 30+1) ───────────────────────────────────────────
+
+model Game {
+  id            String   @id @default(uuid())
+  matchId       String
+  gameNumber    Int
+  scoreTeamA    Int      @default(0)
+  scoreTeamB    Int      @default(0)
+  winnerTeam    Team?
+  cochesAwarded Int      @default(1)
+  startedAt     DateTime @default(now())
+  finishedAt    DateTime?
+
+  match Match  @relation(fields: [matchId], references: [id], onDelete: Cascade)
+  deals Deal[]
+
+  @@unique([matchId, gameNumber])
+  @@map("game")
+}
+
+// ─── Deal (single donne / 8 tricks) ─────────────────────────────────────────
+
+model Deal {
+  id             String    @id @default(uuid())
+  gameId         String
+  dealNumber     Int
+  dealerSeat     Int
+  trumpSuit      Suit
+  rawPointsTeamA Int       @default(0)
+  rawPointsTeamB Int       @default(0)
+  ardoiseTeamA   Int       @default(0)
+  ardoiseTeamB   Int       @default(0)
+  isCape         Boolean   @default(false)
+  capeTeam       Team?
+  startedAt      DateTime  @default(now())
+  finishedAt     DateTime?
+
+  game      Game       @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  marriages Marriage[]
+
+  @@unique([gameId, dealNumber])
+  @@map("deal")
+}
+
+// ─── Marriage ────────────────────────────────────────────────────────────────
+
+model Marriage {
+  id     String       @id @default(uuid())
+  dealId String
+  seat   Int
+  team   Team
+  suit   Suit
+  type   MarriageType
+  points Int
+
+  deal Deal @relation(fields: [dealId], references: [id], onDelete: Cascade)
+
+  @@map("marriage")
 }

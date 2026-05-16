@@ -16,6 +16,10 @@ import {
 } from '@/lib/game/engine'
 import { getValidCards } from '@/lib/game/rules'
 import type { Card, PlayerInfo, Seat } from '@/lib/game/types'
+import {
+  type MatchPersistData,
+  persistMatch,
+} from '@/lib/services/game-persistence'
 import { stateStore } from './state-store'
 import type {
   ClientToServerEvents,
@@ -207,7 +211,45 @@ const handleDealComplete = async (
       winnerTeam,
       scoreTeamA: game.scoreTeamA,
       scoreTeamB: game.scoreTeamB,
-      coches: 1, // simplified for now
+      coches: 1,
+    })
+
+    // TODO: integrate full match lifecycle (multiple games per match)
+    // For now, persist as a single-game match
+    const persistData: MatchPersistData = {
+      roomCode,
+      players: match.players.map(p => ({
+        userId: p.userId,
+        seat: p.seat,
+        team: p.team,
+      })),
+      cochesTeamA: match.cochesTeamA + (winnerTeam === 'EAST_WEST' ? 1 : 0),
+      cochesTeamB: match.cochesTeamB + (winnerTeam === 'NORTH_SOUTH' ? 1 : 0),
+      winnerTeam,
+      games: [
+        {
+          gameNumber: match.gameNumber,
+          scoreTeamA: game.scoreTeamA,
+          scoreTeamB: game.scoreTeamB,
+          winnerTeam,
+          cochesAwarded: 1,
+          deals: [],
+        },
+      ],
+    }
+
+    persistMatch(persistData).catch(() => {
+      // Logged inside persistMatch
+    })
+
+    // Clean up Redis state
+    await stateStore.deleteGame(roomCode)
+    await stateStore.deleteRoom(roomCode)
+
+    io.to(roomCode).emit('game:match-over', {
+      winnerTeam,
+      cochesTeamA: persistData.cochesTeamA,
+      cochesTeamB: persistData.cochesTeamB,
     })
     return
   }
