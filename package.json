@@ -15,9 +15,10 @@
     "url": "git+https://github.com/henchoznoe/Brouc.git"
   },
   "scripts": {
-    "dev": "next dev",
+    "dev": "tsx watch server.ts",
+    "dev:next": "next dev",
     "build": "prisma generate && prisma migrate deploy && tsx prisma/seed.ts && next build",
-    "start": "next start",
+    "start": "node --import tsx server.ts",
     "prepare": "lefthook install",
     "lint": "biome lint .",
     "format": "biome format . --write",
