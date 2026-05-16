@@ -8,7 +8,6 @@
 
 import { logger } from '@/lib/core/logger'
 import prisma from '@/lib/core/prisma'
-import type { MatchState } from '@/lib/game/types'
 
 type CompletedDeal = {
   dealNumber: number
@@ -121,12 +120,12 @@ const updatePlayerStats = async (data: MatchPersistData): Promise<void> => {
     .map(p => p.userId)
 
   const totalGames = data.games.length
-  let totalMarriages = 0
+  let _totalMarriages = 0
   let totalCapes = 0
 
   for (const game of data.games) {
     for (const deal of game.deals) {
-      totalMarriages += deal.marriages.length
+      _totalMarriages += deal.marriages.length
       if (deal.isCape) totalCapes++
     }
   }

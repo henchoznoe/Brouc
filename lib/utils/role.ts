@@ -17,5 +17,3 @@ export const hasAdminAccess = (role: Role): boolean =>
   role === Role.ADMIN || role === Role.SUPER_ADMIN
 
 export const isSuperAdmin = (role: Role): boolean => role === Role.SUPER_ADMIN
-
-export const isAdmin = hasAdminAccess
