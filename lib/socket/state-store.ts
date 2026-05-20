@@ -6,6 +6,7 @@
  * Copyright (c) 2026 Noé Henchoz
  */
 
+import { GAME_STATE } from '@/lib/config/constants'
 import redis from '@/lib/core/redis'
 import type { MatchState } from '@/lib/game/types'
 import type { RoomState } from './types'
@@ -13,9 +14,6 @@ import type { RoomState } from './types'
 const ROOM_PREFIX = 'room:'
 const GAME_PREFIX = 'game:'
 const USER_SOCKET_PREFIX = 'user:socket:'
-
-const ROOM_TTL = 3600 // 1 hour
-const GAME_TTL = 7200 // 2 hours
 
 export const stateStore = {
   // ─── Room state ─────────────────────────────────────────────────
@@ -31,7 +29,7 @@ export const stateStore = {
       `${ROOM_PREFIX}${code}`,
       JSON.stringify(state),
       'EX',
-      ROOM_TTL,
+      GAME_STATE.ROOM_TTL_SECONDS,
     )
   },
 
@@ -52,7 +50,7 @@ export const stateStore = {
       `${GAME_PREFIX}${roomCode}`,
       JSON.stringify(state),
       'EX',
-      GAME_TTL,
+      GAME_STATE.GAME_TTL_SECONDS,
     )
   },
 
@@ -63,7 +61,12 @@ export const stateStore = {
   // ─── User socket mapping ────────────────────────────────────────
 
   async setUserSocket(userId: string, socketId: string): Promise<void> {
-    await redis.set(`${USER_SOCKET_PREFIX}${userId}`, socketId, 'EX', ROOM_TTL)
+    await redis.set(
+      `${USER_SOCKET_PREFIX}${userId}`,
+      socketId,
+      'EX',
+      GAME_STATE.ROOM_TTL_SECONDS,
+    )
   },
 
   async getUserSocket(userId: string): Promise<string | null> {

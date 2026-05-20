@@ -7,6 +7,7 @@
  */
 
 import 'server-only'
+import { GAME_STATE } from '@/lib/config/constants'
 import prisma from '@/lib/core/prisma'
 
 export type LeaderboardEntry = {
@@ -23,7 +24,7 @@ export type LeaderboardEntry = {
 
 /** Get top players by rating. */
 export const getLeaderboard = async (
-  limit = 50,
+  limit = GAME_STATE.LEADERBOARD_DEFAULT_LIMIT,
 ): Promise<LeaderboardEntry[]> => {
   const users = await prisma.user.findMany({
     where: { matchesPlayed: { gt: 0 } },

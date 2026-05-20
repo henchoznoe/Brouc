@@ -9,18 +9,9 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { z } from 'zod'
-import { VALIDATION_LIMITS } from '@/lib/config/constants'
 import prisma from '@/lib/core/prisma'
 import { getSession } from '@/lib/services/auth'
-
-const updateDisplayNameSchema = z.object({
-  displayName: z
-    .string()
-    .min(VALIDATION_LIMITS.DISPLAY_NAME_MIN, 'Minimum 2 caractères')
-    .max(VALIDATION_LIMITS.DISPLAY_NAME_MAX, 'Maximum 32 caractères')
-    .trim(),
-})
+import { updateDisplayNameSchema } from '@/lib/validations/user'
 
 export type ActionResult = {
   success: boolean

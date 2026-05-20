@@ -1,5 +1,5 @@
 /**
- * File: app/play/lobby-client.tsx
+ * File: components/lobby/lobby-client.tsx
  * Description: Client component for lobby — create/join rooms.
  * Author: Noé Henchoz
  * License: MIT
@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useSocketContext } from '@/components/providers/socket-provider'
 import { Button } from '@/components/ui/button'
+import { ROOM_CODE } from '@/lib/config/constants'
 import { ROUTES } from '@/lib/config/routes'
 
 interface LobbyClientProps {
@@ -94,7 +95,7 @@ export const LobbyClient = ({ user }: LobbyClientProps) => {
             value={joinCode}
             onChange={e => setJoinCode(e.target.value)}
             placeholder="Code de la room"
-            maxLength={6}
+            maxLength={ROOM_CODE.LENGTH}
             className="h-12 flex-1 rounded-md border border-zinc-700 bg-zinc-900 px-4 text-center font-mono text-lg uppercase tracking-widest text-zinc-50 placeholder:text-zinc-600 focus:border-zinc-500 focus:outline-none"
           />
           <Button

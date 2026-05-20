@@ -7,6 +7,7 @@
  */
 
 import type { Metadata } from 'next'
+import { GAME_STATE } from '@/lib/config/constants'
 import prisma from '@/lib/core/prisma'
 
 export const dynamic = 'force-dynamic'
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
 const AdminUsersPage = async () => {
   const users = await prisma.user.findMany({
     orderBy: { createdAt: 'desc' },
-    take: 100,
+    take: GAME_STATE.ADMIN_USERS_DEFAULT_LIMIT,
     select: {
       id: true,
       email: true,

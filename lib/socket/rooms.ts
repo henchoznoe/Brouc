@@ -6,18 +6,16 @@
  * Copyright (c) 2026 Noé Henchoz
  */
 
+import { ROOM_CODE } from '@/lib/config/constants'
 import { TEAM_FOR_SEAT } from '@/lib/game/constants'
 import type { Seat } from '@/lib/game/types'
 import { stateStore } from './state-store'
 import type { RoomPlayer, RoomState } from './types'
 
-const CODE_CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
-const CODE_LENGTH = 6
-
 const generateRoomCode = (): string => {
   let code = ''
-  for (let i = 0; i < CODE_LENGTH; i++) {
-    code += CODE_CHARS[Math.floor(Math.random() * CODE_CHARS.length)]
+  for (let i = 0; i < ROOM_CODE.LENGTH; i++) {
+    code += ROOM_CODE.CHARS[Math.floor(Math.random() * ROOM_CODE.CHARS.length)]
   }
   return code
 }
@@ -30,7 +28,7 @@ export const createRoom = async (
   let code = generateRoomCode()
   let existing = await stateStore.getRoom(code)
   let attempts = 0
-  while (existing && attempts < 10) {
+  while (existing && attempts < ROOM_CODE.MAX_GENERATION_ATTEMPTS) {
     code = generateRoomCode()
     existing = await stateStore.getRoom(code)
     attempts++

@@ -38,13 +38,17 @@ pnpm docker:down            # Stop containers
 
 - `app/` — Routes and page orchestration. Route groups: `(public)/`, `admin/`, `api/`, `play/`
 - `components/` — UI split by domain: `public/`, `admin/`, `game/`, `lobby/`, `ui/` (primitives), `providers/`
+  - `admin/` — Reusable admin UI components (stat cards, tables)
+  - `lobby/` — Lobby/room creation client components
+  - `game/` — In-game UI (table, hand, cards, scoreboard)
+  - `public/` — Public pages (home, auth, profile, layout)
 - `lib/game/` — Pure game engine (rules, scoring, deck, state machine). No IO, no side effects.
 - `lib/socket/` — Socket.io server setup, room management, game event handlers, Redis state store
-- `lib/actions/` — Server Actions for mutations via `authenticatedAction()` wrapper
+- `lib/actions/` — Server Actions for mutations (currently: `user.ts`)
 - `lib/services/` — Read-side cached data access (server-only, `'use cache'`, `cacheTag()`)
 - `lib/core/` — Auth, env, logger, Prisma client, Redis client
-- `lib/validations/` — Zod v4 schemas
-- `lib/config/constants/` — Named constants (new constants go here)
+- `lib/validations/` — Zod v4 schemas (shared between actions and components)
+- `lib/config/constants/` — Named constants split by domain (`auth`, `cache`, `game-state`, `room`, `site`, `timing`, `validation`)
 - `lib/utils/` — Helpers (formatting, cn, role, etc.)
 - `prisma/` — Schema, migrations, seed, generated client at `prisma/generated/prisma`
 - `proxy.ts` — Edge middleware for admin route protection

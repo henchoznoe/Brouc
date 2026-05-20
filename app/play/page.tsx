@@ -9,9 +9,9 @@
 import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { Suspense } from 'react'
+import { LobbyClient } from '@/components/lobby/lobby-client'
 import { ROUTES } from '@/lib/config/routes'
 import { getSession } from '@/lib/services/auth'
-import { LobbyClient } from './lobby-client'
 
 export const metadata: Metadata = {
   title: 'Jouer',

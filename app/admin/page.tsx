@@ -7,6 +7,7 @@
  */
 
 import type { Metadata } from 'next'
+import { StatCard } from '@/components/admin/stat-card'
 import prisma from '@/lib/core/prisma'
 
 export const dynamic = 'force-dynamic'
@@ -33,12 +34,5 @@ const AdminDashboard = async () => {
     </div>
   )
 }
-
-const StatCard = ({ label, value }: { label: string; value: number }) => (
-  <div className="rounded-lg border border-zinc-700 bg-zinc-900 p-4">
-    <p className="text-sm text-zinc-400">{label}</p>
-    <p className="mt-1 text-3xl font-bold">{value}</p>
-  </div>
-)
 
 export default AdminDashboard

@@ -7,6 +7,8 @@
  */
 
 import type { Server } from 'socket.io'
+import { GAME_STATE } from '@/lib/config/constants'
+import { logger } from '@/lib/core/logger'
 import { authMiddleware } from './auth-middleware'
 import {
   handleAnnounceDehors,
@@ -42,7 +44,7 @@ export const setupSocketHandlers = (io: AppServer): void => {
 
   io.on('connection', socket => {
     const { userId, displayName } = socket.data
-    console.log(`[Socket] Connected: ${userId} (${displayName})`)
+    logger.info({ userId, displayName }, 'Socket connected')
 
     stateStore.setUserSocket(userId, socket.id)
 
@@ -71,10 +73,18 @@ export const setupSocketHandlers = (io: AppServer): void => {
         socket.to(room.code).emit('room:player-joined', player)
         callback({ success: true })
       } catch (err) {
-        callback({
-          success: false,
-          error: err instanceof Error ? err.message : 'Failed to join',
-        })
+        const message = err instanceof Error ? err.message : 'Failed to join'
+        if (message === 'Already in room') {
+          const existing = await stateStore.getRoom(data.code)
+          if (existing) {
+            socket.data.roomCode = data.code
+            socket.join(data.code)
+            socket.emit('room:state', existing)
+            callback({ success: true })
+            return
+          }
+        }
+        callback({ success: false, error: message })
       }
     })
 
@@ -103,7 +113,9 @@ export const setupSocketHandlers = (io: AppServer): void => {
         if (areAllPlayersReady(room)) {
           room.status = 'STARTING'
           await stateStore.setRoom(roomCode, room)
-          io.to(roomCode).emit('room:countdown', { seconds: 3 })
+          io.to(roomCode).emit('room:countdown', {
+            seconds: GAME_STATE.COUNTDOWN_SECONDS,
+          })
 
           setTimeout(async () => {
             const currentRoom = await stateStore.getRoom(roomCode)
@@ -114,7 +126,7 @@ export const setupSocketHandlers = (io: AppServer): void => {
             ) {
               await startGame(io, currentRoom)
             }
-          }, 3000)
+          }, GAME_STATE.COUNTDOWN_MS)
         }
       } catch {
         // Player not in room
@@ -186,7 +198,7 @@ export const setupSocketHandlers = (io: AppServer): void => {
     // ─── Disconnect ─────────────────────────────────────────────
 
     socket.on('disconnect', async () => {
-      console.log(`[Socket] Disconnected: ${userId}`)
+      logger.info({ userId }, 'Socket disconnected')
       await stateStore.deleteUserSocket(userId)
 
       const roomCode = socket.data.roomCode

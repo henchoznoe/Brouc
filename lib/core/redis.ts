@@ -7,11 +7,12 @@
  */
 
 import Redis from 'ioredis'
+import { GAME_STATE } from '@/lib/config/constants'
 
 const createRedisClient = () => {
   const url = process.env.REDIS_URL ?? 'redis://localhost:6379'
   return new Redis(url, {
-    maxRetriesPerRequest: 3,
+    maxRetriesPerRequest: GAME_STATE.REDIS_MAX_RETRIES,
     lazyConnect: true,
   })
 }

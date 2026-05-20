@@ -10,6 +10,8 @@
 
 export * from './auth'
 export * from './cache'
+export * from './game-state'
+export * from './room'
 export * from './site'
 export * from './timing'
 export * from './validation'
