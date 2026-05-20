@@ -19,7 +19,7 @@ RUN pnpm install --frozen-lockfile --prod=false --ignore-scripts
 # ─── Build ────────────────────────────────────────────────────────────────────
 
 FROM base AS build
-ENV LEFTHOOK=0
+RUN apk add --no-cache git
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
