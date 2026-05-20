@@ -101,6 +101,7 @@ export interface ServerToClientEvents {
     scoreTeamB: number
     coches: number
   }) => void
+  'game:dehors': (data: { team: Team; seat: Seat }) => void
   'game:match-over': (data: {
     winnerTeam: Team
     cochesTeamA: number

@@ -76,6 +76,7 @@ export type GameState = {
   dealNumber: number
   phase: GamePhase
   dealer: Seat
+  dehorsAnnounced: { team: Team; atTrick: number } | null
 }
 
 export type MatchState = {

@@ -8,7 +8,12 @@
 
 import type { Server } from 'socket.io'
 import { authMiddleware } from './auth-middleware'
-import { handlePlayCard, startGame } from './game-handler'
+import {
+  handleAnnounceDehors,
+  handleAnnounceMarriage,
+  handlePlayCard,
+  startGame,
+} from './game-handler'
 import {
   areAllPlayersReady,
   createRoom,
@@ -160,6 +165,21 @@ export const setupSocketHandlers = (io: AppServer): void => {
 
     socket.on('game:play-card', async (data, callback) => {
       const result = await handlePlayCard(io, socket, data.card)
+      callback(result)
+    })
+
+    socket.on('game:announce-marriage', async (data, callback) => {
+      const result = await handleAnnounceMarriage(
+        io,
+        socket,
+        data.suit,
+        data.type,
+      )
+      callback(result)
+    })
+
+    socket.on('game:announce-dehors', async callback => {
+      const result = await handleAnnounceDehors(io, socket)
       callback(result)
     })
 

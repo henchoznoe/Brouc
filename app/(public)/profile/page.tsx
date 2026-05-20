@@ -9,6 +9,7 @@
 import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { Suspense } from 'react'
+import { DisplayNameForm } from '@/components/public/profile/display-name-form'
 import { ROUTES } from '@/lib/config/routes'
 import { getSession } from '@/lib/services/auth'
 import { getPlayerStats } from '@/lib/services/leaderboard'
@@ -34,9 +35,9 @@ const ProfileContent = async () => {
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-12 text-zinc-50">
-      <h1 className="text-2xl font-bold">
-        {session.user.displayName || session.user.name}
-      </h1>
+      <DisplayNameForm
+        currentName={session.user.displayName || session.user.name}
+      />
 
       {/* Stats grid */}
       {stats && (

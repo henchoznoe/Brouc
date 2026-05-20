@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
+  canAnnounceDehors,
+  completeGame,
   createGameState,
   createMatchState,
   getGameWinner,
@@ -204,6 +206,136 @@ describe('engine', () => {
         phase: 'GAME_OVER',
       }
       expect(getGameWinner(game)).toBe('NORTH_SOUTH')
+    })
+  })
+
+  describe('canAnnounceDehors', () => {
+    it('returns false when no active deal', () => {
+      const game = createGameState(0 as Seat)
+      expect(canAnnounceDehors(game, 'NORTH_SOUTH')).toBe(false)
+    })
+
+    it('returns false when score too low', () => {
+      const game = startDeal(createGameState(0 as Seat))
+      expect(canAnnounceDehors(game, 'NORTH_SOUTH')).toBe(false)
+    })
+
+    it('returns true when ardoise score reaches 31', () => {
+      let game = startDeal(createGameState(0 as Seat))
+      game = { ...game, scoreTeamA: 30 }
+      const deal = game.currentDeal!
+      deal.tricks = [
+        {
+          trickNumber: 1,
+          cards: [],
+          winnerSeat: 0 as Seat,
+          points: 11,
+        },
+      ]
+      expect(canAnnounceDehors(game, 'NORTH_SOUTH')).toBe(true)
+    })
+  })
+
+  describe('completeGame', () => {
+    const players: PlayerInfo[] = [
+      { userId: '1', displayName: 'A', seat: 0 as Seat, team: 'NORTH_SOUTH' },
+      { userId: '2', displayName: 'B', seat: 1 as Seat, team: 'EAST_WEST' },
+      { userId: '3', displayName: 'C', seat: 2 as Seat, team: 'NORTH_SOUTH' },
+      { userId: '4', displayName: 'D', seat: 3 as Seat, team: 'EAST_WEST' },
+    ]
+
+    it('assigns coches to losing team', () => {
+      const match = createMatchState('TEST', players)
+      match.currentGame = {
+        ...createGameState(0 as Seat),
+        scoreTeamA: 31,
+        scoreTeamB: 20,
+        phase: 'GAME_OVER',
+        currentDeal: {
+          hands: [[], [], [], []],
+          trump: 'SPADES',
+          dealer: 0 as Seat,
+          currentTrick: [],
+          trickNumber: 8,
+          currentPlayer: 0 as Seat,
+          tricks: Array.from({ length: 8 }, (_, i) => ({
+            trickNumber: i + 1,
+            cards: [],
+            winnerSeat: (i % 2 === 0 ? 0 : 1) as Seat,
+            points: 15,
+          })),
+          marriages: [],
+          leadSuit: null,
+        },
+      }
+      const result = completeGame(match, false, false)
+      expect(result.cochesTeamB).toBeGreaterThanOrEqual(1)
+      expect(result.cochesTeamA).toBe(0)
+    })
+
+    it('assigns 2 coches for cape', () => {
+      const match = createMatchState('TEST', players)
+      match.currentGame = {
+        ...createGameState(0 as Seat),
+        scoreTeamA: 31,
+        scoreTeamB: 0,
+        phase: 'GAME_OVER',
+        currentDeal: {
+          hands: [[], [], [], []],
+          trump: 'SPADES',
+          dealer: 0 as Seat,
+          currentTrick: [],
+          trickNumber: 8,
+          currentPlayer: 0 as Seat,
+          tricks: Array.from({ length: 8 }, (_, i) => ({
+            trickNumber: i + 1,
+            cards: [],
+            winnerSeat: 0 as Seat,
+            points: 15,
+          })),
+          marriages: [],
+          leadSuit: null,
+        },
+      }
+      const result = completeGame(match, true, false)
+      expect(result.cochesTeamB).toBeGreaterThanOrEqual(2)
+    })
+
+    it('finishes match at 5 coches', () => {
+      const match = createMatchState('TEST', players)
+      match.cochesTeamB = 4
+      match.currentGame = {
+        ...createGameState(0 as Seat),
+        scoreTeamA: 31,
+        scoreTeamB: 20,
+        phase: 'GAME_OVER',
+        currentDeal: {
+          hands: [[], [], [], []],
+          trump: 'SPADES',
+          dealer: 0 as Seat,
+          currentTrick: [],
+          trickNumber: 8,
+          currentPlayer: 0 as Seat,
+          tricks: Array.from({ length: 8 }, (_, i) => ({
+            trickNumber: i + 1,
+            cards: [],
+            winnerSeat: (i % 2 === 0 ? 0 : 1) as Seat,
+            points: 15,
+          })),
+          marriages: [],
+          leadSuit: null,
+        },
+      }
+      const result = completeGame(match, false, false)
+      expect(result.matchPhase).toBe('FINISHED')
+      expect(result.winnerTeam).toBe('NORTH_SOUTH')
+    })
+  })
+
+  describe('dehorsAnnounced field', () => {
+    it('initializes to null', () => {
+      const game = createGameState(0 as Seat)
+      expect(game.dehorsAnnounced).toBeNull()
     })
   })
 })

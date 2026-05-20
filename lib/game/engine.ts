@@ -50,6 +50,7 @@ export const createGameState = (dealer: Seat): GameState => ({
   dealNumber: 0,
   phase: 'WAITING_FOR_DEAL',
   dealer,
+  dehorsAnnounced: null,
 })
 
 /** Create initial match state. */
