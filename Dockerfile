@@ -22,8 +22,8 @@ FROM base AS build
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Generate Prisma client (does not need DB)
-RUN npx prisma generate
+# Generate Prisma client — dummy URL satisfies prisma.config.ts env() call at generate time
+RUN DIRECT_URL=postgresql://x:x@localhost/x DATABASE_URL=postgresql://x:x@localhost/x npx prisma generate
 
 # Build Next.js
 RUN pnpm next build
