@@ -26,8 +26,8 @@ COPY . .
 # Generate Prisma client — dummy URL satisfies prisma.config.ts env() call at generate time
 RUN DIRECT_URL=postgresql://x:x@localhost/x DATABASE_URL=postgresql://x:x@localhost/x npx prisma generate
 
-# Build Next.js
-RUN pnpm next build
+# Build Next.js — git init so lefthook install doesn't fail during pnpm deps check
+RUN git init && pnpm next build
 
 # ─── Production ───────────────────────────────────────────────────────────────
 
