@@ -9,6 +9,8 @@
 import type { Metadata } from 'next'
 import { getLeaderboard } from '@/lib/services/leaderboard'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'Classement',
 }

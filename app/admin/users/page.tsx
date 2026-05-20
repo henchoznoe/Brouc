@@ -9,6 +9,8 @@
 import type { Metadata } from 'next'
 import prisma from '@/lib/core/prisma'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'Utilisateurs — Admin',
 }
