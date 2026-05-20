@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/henchoznoe/Brouc/compare/v1.0.0...v1.0.1) (2026-05-20)
+
+
+### Bug Fixes
+
+* add migration ([a901339](https://github.com/henchoznoe/Brouc/commit/a901339ec70296eb325f8aa7f14a7f54f691d999))
+
 # 1.0.0 (2026-05-16)
 
 
