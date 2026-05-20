@@ -1,3 +1,11 @@
+# [1.1.0](https://github.com/henchoznoe/Brouc/compare/v1.0.1...v1.1.0) (2026-05-20)
+
+
+### Features
+
+* add deploy script ([3d7da7c](https://github.com/henchoznoe/Brouc/commit/3d7da7c38c3c745d2dfc2137be6336587c32724b))
+* update ui ([90b9a8a](https://github.com/henchoznoe/Brouc/commit/90b9a8a9b5aa896cbc1b565d4e1567aea228e5b6))
+
 ## [1.0.1](https://github.com/henchoznoe/Brouc/compare/v1.0.0...v1.0.1) (2026-05-20)
 
 
