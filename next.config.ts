@@ -36,6 +36,7 @@ const SECURITY_HEADERS = [
 ]
 
 const nextConfig: NextConfig = {
+  output: 'standalone',
   cacheComponents: false,
   allowedDevOrigins: ['http://localhost:3000'],
   headers: async () => [
