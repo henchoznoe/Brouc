@@ -65,10 +65,10 @@ export const joinRoom = async (
   const room = await stateStore.getRoom(code)
   if (!room) throw new Error('Room not found')
   if (room.status !== 'WAITING') throw new Error('Game already started')
-  if (room.players.length >= 4) throw new Error('Room is full')
   if (room.players.some(p => p.userId === userId)) {
     throw new Error('Already in room')
   }
+  if (room.players.length >= 4) throw new Error('Room is full')
 
   const takenSeats = new Set(room.players.map(p => p.seat))
   let seat: Seat = 0 as Seat
