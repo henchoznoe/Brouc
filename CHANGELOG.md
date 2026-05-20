@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/henchoznoe/Brouc/compare/v1.1.0...v1.2.0) (2026-05-20)
+
+
+### Features
+
+* update ui ([4f1ccfe](https://github.com/henchoznoe/Brouc/commit/4f1ccfe6012deffc24858ef10eaf2289cc1c2371))
+
 # [1.1.0](https://github.com/henchoznoe/Brouc/compare/v1.0.1...v1.1.0) (2026-05-20)
 
 
