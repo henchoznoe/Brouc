@@ -16,7 +16,7 @@
   },
   "scripts": {
     "dev": "tsx watch --env-file=.env.local server.ts",
-    "dev:next": "next dev",
+    "dev:next": "next dev --port 4000",
     "build": "prisma generate && prisma migrate deploy && tsx prisma/seed.ts && next build",
     "start": "node --env-file=.env --import tsx server.ts",
     "prepare": "lefthook install",

@@ -12,6 +12,6 @@ export const METADATA = {
   TEMPLATE_TITLE: '%s | Brouc',
 } as const
 
-export const DEFAULT_ASSETS = {
-  LOGO: '/assets/logo-blue.png',
+const DEFAULT_ASSETS = {
+  LOGO: '/favicon.ico',
 } as const

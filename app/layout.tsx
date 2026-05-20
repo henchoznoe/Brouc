@@ -10,7 +10,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { Suspense } from 'react'
 import { ScrollToTop } from '@/components/ui/scroll-to-top'
-import { DEFAULT_ASSETS, METADATA } from '@/lib/config/constants'
+import { METADATA } from '@/lib/config/constants'
 import { env } from '@/lib/core/env'
 import { cn } from '@/lib/utils/cn'
 import './globals.css'
@@ -27,10 +27,6 @@ export const metadata: Metadata = {
     template: METADATA.TEMPLATE_TITLE,
   },
   description: METADATA.DESCRIPTION,
-  icons: {
-    icon: DEFAULT_ASSETS.LOGO,
-    apple: DEFAULT_ASSETS.LOGO,
-  },
   robots:
     env.VERCEL_ENV !== 'production'
       ? { index: false, follow: false }
@@ -50,7 +46,10 @@ const RootLayout = (props: Readonly<RootLayoutProps>) => {
       suppressHydrationWarning
     >
       <body
-        className={cn(inter.variable, 'bg-zinc-50 font-sans antialiased')}
+        className={cn(
+          inter.variable,
+          'bg-zinc-950 font-sans text-zinc-50 antialiased',
+        )}
         suppressHydrationWarning
       >
         <Suspense>

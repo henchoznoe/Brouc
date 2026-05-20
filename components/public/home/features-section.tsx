@@ -6,10 +6,6 @@
  * Copyright (c) 2026 Noé Henchoz
  */
 
-'use client'
-
-import { motion } from 'framer-motion'
-
 const FEATURES = [
   {
     suit: '♠',
@@ -41,13 +37,9 @@ export const FeaturesSection = () => {
   return (
     <section className="mx-auto max-w-5xl px-4 py-16">
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {FEATURES.map((feature, i) => (
-          <motion.div
+        {FEATURES.map(feature => (
+          <div
             key={feature.title}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-50px' }}
-            transition={{ duration: 0.4, delay: i * 0.1 }}
             className={`group rounded-xl border ${feature.accent} bg-zinc-900/50 p-6 transition-colors hover:bg-zinc-900`}
           >
             <span className={`text-3xl ${feature.suitColor}`}>
@@ -57,7 +49,7 @@ export const FeaturesSection = () => {
               {feature.title}
             </h3>
             <p className="mt-2 text-sm text-zinc-400">{feature.description}</p>
-          </motion.div>
+          </div>
         ))}
       </div>
     </section>

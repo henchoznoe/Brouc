@@ -9,7 +9,6 @@
 'use client'
 
 import { Menu } from 'lucide-react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
@@ -39,12 +38,7 @@ export const Header = ({ session }: HeaderProps) => {
     <header className="sticky top-0 z-40 border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-sm">
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4">
         <Link href={ROUTES.HOME} className="flex items-center gap-2">
-          <Image
-            src="/assets/logo-blue.png"
-            alt="Brouc"
-            width={28}
-            height={28}
-          />
+          <span className="text-xl">♠</span>
           <span className="text-lg font-bold text-zinc-50">Brouc</span>
         </Link>
 
